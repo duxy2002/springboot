@@ -7,7 +7,7 @@ import lombok.Data;
  */
 @Data
 public class Counter {
-    private Integer id;
+    private Long id;
 
     private String title;
 
