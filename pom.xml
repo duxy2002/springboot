@@ -25,10 +25,26 @@
 	</properties>
 
 	<dependencies>
+		<!-- 应用监控 开始 -->
+		<!-- /actuator:所有EndPoint的列表，需加入spring HATEOAS支持 -->
+		<!-- /autoconfig:当前应用的所有自动配置 -->
+		<!-- /beans:当前应用中所有Bean的信息 -->
+		<!-- /configprops:当前应用中所有的配置属性 -->
+		<!-- /dump:显示当前应用线程状态信息 -->
+		<!-- /env:显示当前应用环境信息 -->
+		<!-- /health:显示当前应用健康状况 -->
+		<!-- /info:显示当前应用信息 -->
+		<!-- /metrics:显示当前应用的各项指标信息 -->
+		<!-- /mappings:显示所有的@RequestMapping映射的路径 -->
+		<!-- /shutdown:关闭当前应用。注意shutdown断点默认是关闭的，我们可以在application.properties中开启-->
+		<!--   endpoints.shutdown.enabled=true-->
+		<!--   另外shutdown端点不支持GET提交。所以我们需要用Postman等类似的工具，使用POST的方式来访问http://localhost:8080/shutdown-->
+		<!-- /trace:显示追踪信息(默认最新的http请求）-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
+		<!-- 应用监控 结束 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-amqp</artifactId>

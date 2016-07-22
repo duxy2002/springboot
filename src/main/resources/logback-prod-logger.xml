@@ -1,9 +1,6 @@
 <?xml version="1.0"?>
-<!--configuration要素的scan属性设置为true时,表示自动监视配置文件。-->
-<!--scan属性为true时,缺省是1分钟监视1次。我们可以设定configuration要素的scanPeriod属性来设定监视间隔时间。-->
-<!--设定值是毫秒，秒或者别的时间单位。假如没有指定时间单位，那么缺省为毫秒。不过还是加上单位更好。-->
-<!--<configuration scan="true" scanPeriod="30 seconds"> -->
-<configuration scan="false">
+
+<included>
   <!--LoggerContext的缺省名称是default。可以通过下面contextName的定义来改变这个名称。-->
   <contextName>SpringBoot</contextName>
 
@@ -21,7 +18,7 @@
       <!--%d{pattern,timezone}:请注意这儿设置为了中国时区-->
       <!--%.16thread:thread名称超过16位的时候，从名称的开头删除字符，使之保持16位。 -->
       <!--%-5level："-"表示向左靠齐。整个意思是level不够5位的时候，在右侧加半角空格补足5位。-->
-      <pattern>%d{yyyy/MM/dd HH:mm:ss.SSS,CST} [%.16thread] %highlight(%-5level) %cyan(%logger:%line) - %msg%n</pattern>
+      <pattern>PROD %d{yyyy/MM/dd HH:mm:ss.SSS,CST} [%.16thread] %highlight(%-5level) %cyan(%logger:%line) - %msg%n</pattern>
       <!--有了Log内容，马上就输出到console-->
       <immediateFlush>true</immediateFlush>
     </encoder>
@@ -34,7 +31,8 @@
     <!--true的时候，log内容被追加到既存文件的末尾。append为false的时候，既存文件的内容被覆盖。缺省值是true-->
     <append>true</append>
     <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-      <pattern>%d{yyyy/MM/dd HH:mm:ss.SSS,CST} %contextName [%.16thread] %-5level %logger:%line - %msg%n</pattern>
+      <charset>UTF-8</charset>
+      <pattern>PROD %d{yyyy/MM/dd HH:mm:ss.SSS,CST} %contextName [%.16thread] %-5level %logger:%line - %msg%n</pattern>
       <!--有了Log内容，马上就输出到File中。虽然设置为false，Logger的ThroughPut有可能提高5倍，但是应用程序关闭的时候，-->
       <!--appender没有关闭，或者有没有写到Disk的Log内容都会消失。-->
       <immediateFlush>true</immediateFlush>
@@ -67,4 +65,4 @@
     <appender-ref ref="STDOUT" />
     <appender-ref ref="FILE" />
   </root>
-</configuration>
+</included>

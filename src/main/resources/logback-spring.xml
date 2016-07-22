@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!--configuration要素的scan属性设置为true时,表示自动监视配置文件。-->
+<!--scan属性为true时,缺省是1分钟监视1次。我们可以设定configuration要素的scanPeriod属性来设定监视间隔时间。-->
+<!--设定值是毫秒，秒或者别的时间单位。假如没有指定时间单位，那么缺省为毫秒。不过还是加上单位更好。-->
+<!--<configuration scan="true" scanPeriod="30 seconds"> -->
+<!--debug="true":解析logback-spring.xml的时候，假如有发生warn或者Error,那么都输出到Console中去-->
+<configuration scan="false" debug="true">
+
+  <!--LoggerContext的缺省名称是default。可以通过下面contextName的定义来改变这个名称。-->
+  <contextName>SpringBoot</contextName>
+
+  <!--定义一个变量-->
+  <property name="LOG_HOME" value="/opt/springboot/app-log"/>
+
+  <springProfile name="dev">
+    <include resource="logback-dev-logger.xml"/>
+  </springProfile>
+
+  <springProfile name="prod">
+    <include resource="logback-prod-logger.xml"/>
+  </springProfile>
+
+  <springProfile name="test">
+    <include resource="logback-test-logger.xml"/>
+  </springProfile>
+</configuration>
