@@ -90,7 +90,9 @@
 		<table schema="cloud_wechat_print" tableName="t_address" >
 			<generatedKey column="id" sqlStatement="MySql" identity="true" />
 		</table>
+		<table schema="cloud_wechat_print" tableName="t_persistent_logins" >
 
+		</table>
 
 	</context>
 </generatorConfiguration>

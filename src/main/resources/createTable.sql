@@ -275,11 +275,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `cloud_wechat_print`.`persistent_logins`
+-- Table `cloud_wechat_print`.`t_persistent_logins`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `cloud_wechat_print`.`persistent_logins` ;
+DROP TABLE IF EXISTS `cloud_wechat_print`.`t_persistent_logins` ;
 
-CREATE TABLE IF NOT EXISTS `cloud_wechat_print`.`persistent_logins` (
+CREATE TABLE IF NOT EXISTS `cloud_wechat_print`.`t_persistent_logins` (
   `username` VARCHAR(64) NOT NULL,
   `series` VARCHAR(64) NOT NULL,
   `token` VARCHAR(64) NOT NULL,
