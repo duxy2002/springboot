@@ -20,6 +20,8 @@ public class TUser implements IRespDTO, Serializable, IReqDTO {
 
     private Date updateDate;
 
+    private Boolean enabled;
+
     private static final long serialVersionUID = 1L;
 
     public Long getUserId() {
@@ -78,6 +80,14 @@ public class TUser implements IRespDTO, Serializable, IReqDTO {
         this.updateDate = updateDate;
     }
 
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -96,7 +106,8 @@ public class TUser implements IRespDTO, Serializable, IReqDTO {
             && (this.getPassword() == null ? other.getPassword() == null : this.getPassword().equals(other.getPassword()))
             && (this.getEmail() == null ? other.getEmail() == null : this.getEmail().equals(other.getEmail()))
             && (this.getCreateDate() == null ? other.getCreateDate() == null : this.getCreateDate().equals(other.getCreateDate()))
-            && (this.getUpdateDate() == null ? other.getUpdateDate() == null : this.getUpdateDate().equals(other.getUpdateDate()));
+            && (this.getUpdateDate() == null ? other.getUpdateDate() == null : this.getUpdateDate().equals(other.getUpdateDate()))
+            && (this.getEnabled() == null ? other.getEnabled() == null : this.getEnabled().equals(other.getEnabled()));
     }
 
     @Override
@@ -110,6 +121,7 @@ public class TUser implements IRespDTO, Serializable, IReqDTO {
         result = prime * result + ((getEmail() == null) ? 0 : getEmail().hashCode());
         result = prime * result + ((getCreateDate() == null) ? 0 : getCreateDate().hashCode());
         result = prime * result + ((getUpdateDate() == null) ? 0 : getUpdateDate().hashCode());
+        result = prime * result + ((getEnabled() == null) ? 0 : getEnabled().hashCode());
         return result;
     }
 
@@ -126,6 +138,7 @@ public class TUser implements IRespDTO, Serializable, IReqDTO {
         sb.append(", email=").append(email);
         sb.append(", createDate=").append(createDate);
         sb.append(", updateDate=").append(updateDate);
+        sb.append(", enabled=").append(enabled);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

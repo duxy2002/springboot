@@ -9,6 +9,7 @@
     <result column="EMAIL" property="email" jdbcType="VARCHAR" />
     <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
     <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="ENABLED" property="enabled" jdbcType="BIT" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -69,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    USER_ID, NAME, LOGIN_NAME, PASSWORD, EMAIL, CREATE_DATE, UPDATE_DATE
+    USER_ID, NAME, LOGIN_NAME, PASSWORD, EMAIL, CREATE_DATE, UPDATE_DATE, ENABLED
   </sql>
   <select id="selectByCriteria" resultMap="BaseResultMap" parameterType="com.hpe.ddc.framework.model.TUserCriteria" >
     select
@@ -106,11 +107,11 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into t_user (NAME, LOGIN_NAME, PASSWORD, 
-      EMAIL, CREATE_DATE, UPDATE_DATE
-      )
+      EMAIL, CREATE_DATE, UPDATE_DATE, 
+      ENABLED)
     values (#{name,jdbcType=VARCHAR}, #{loginName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{email,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}
-      )
+      #{email,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, 
+      #{enabled,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.hpe.ddc.framework.model.TUser" >
     <selectKey resultType="java.lang.Long" keyProperty="userId" order="AFTER" >
@@ -136,6 +137,9 @@
       <if test="updateDate != null" >
         UPDATE_DATE,
       </if>
+      <if test="enabled != null" >
+        ENABLED,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="name != null" >
@@ -155,6 +159,9 @@
       </if>
       <if test="updateDate != null" >
         #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enabled != null" >
+        #{enabled,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -188,6 +195,9 @@
       <if test="record.updateDate != null" >
         UPDATE_DATE = #{record.updateDate,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.enabled != null" >
+        ENABLED = #{record.enabled,jdbcType=BIT},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -201,7 +211,8 @@
       PASSWORD = #{record.password,jdbcType=VARCHAR},
       EMAIL = #{record.email,jdbcType=VARCHAR},
       CREATE_DATE = #{record.createDate,jdbcType=TIMESTAMP},
-      UPDATE_DATE = #{record.updateDate,jdbcType=TIMESTAMP}
+      UPDATE_DATE = #{record.updateDate,jdbcType=TIMESTAMP},
+      ENABLED = #{record.enabled,jdbcType=BIT}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -227,6 +238,9 @@
       <if test="updateDate != null" >
         UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
       </if>
+      <if test="enabled != null" >
+        ENABLED = #{enabled,jdbcType=BIT},
+      </if>
     </set>
     where USER_ID = #{userId,jdbcType=BIGINT}
   </update>
@@ -237,7 +251,8 @@
       PASSWORD = #{password,jdbcType=VARCHAR},
       EMAIL = #{email,jdbcType=VARCHAR},
       CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
-      UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}
+      UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      ENABLED = #{enabled,jdbcType=BIT}
     where USER_ID = #{userId,jdbcType=BIGINT}
   </update>
 </mapper>
