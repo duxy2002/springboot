@@ -10,6 +10,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -20,6 +21,7 @@ import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
 import org.springframework.security.web.csrf.MissingCsrfTokenException;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -47,8 +49,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private PersistentTokenBusinessImpl persistentTokenRepositoryImpl;
 
-    //@Autowired
-    //private DataSource dataSource;
+    /**
+     * 因为SpringSecurity会把静态Resource的Cache给关闭，所以在这儿把这个功能打开。
+     * @param web
+     * @throws Exception
+     */
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/static/**");
+    }
 
     /**
      * 请求授权
@@ -64,26 +73,28 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/sbadmin2/css/**").permitAll()
                 .antMatchers("/sbadmin2/js/**").permitAll()
                 .antMatchers("/sbadmin2/bower_components/**").permitAll()
+                .antMatchers("/webjars/**", "/**/*.js", "/**/*.css", "/**/*.less", "/**/*.png", "/**/*.gif", "/**/*.jpg", "/**/*.map","**/favicon.ico").permitAll()
                 .anyRequest().fullyAuthenticated()
-                .and()
+              .and()
                 .formLogin()
                 .loginPage("/login")
                 .usernameParameter("userid")
                 .passwordParameter("password")
                 .defaultSuccessUrl("/sbadmin2/index.html")
                 .failureUrl("/login?error").permitAll()
-                .and()
+              .and()
                 .logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .logoutSuccessUrl("/login?logout")
                 .deleteCookies("JSESSIONID")
                 .invalidateHttpSession(true).permitAll()
-                .and()
+              .and()
                 .rememberMe()
                 .key(rememberMeKey)
                 .rememberMeServices(getRememberMeServices(rememberMeKey))
                 .tokenValiditySeconds(604800) // remember for a week. ( 1 * 60 * 60 * 24 * 7 ) sec
-                .and().exceptionHandling()
+              .and()
+                .exceptionHandling()
                 // 通常Request和ajax都能对应的类。SessionTimeout的时候的处理
                 .authenticationEntryPoint(authenticationEntryPoint())
                 // 假如没有session，那么CSRF就不起作用。
