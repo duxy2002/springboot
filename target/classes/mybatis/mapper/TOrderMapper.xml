@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hpe.ddc.framework.dao.TOrderDAO" >
+  <resultMap id="BaseResultMap" type="com.hpe.ddc.framework.model.TOrder" >
+    <id column="ORDER_ID" property="orderId" jdbcType="BIGINT" />
+    <result column="COMPANY_ID" property="companyId" jdbcType="BIGINT" />
+    <result column="PREPAY_END_TIME" property="prepayEndTime" jdbcType="TIMESTAMP" />
+    <result column="PAY_NOTIFY_TIME" property="payNotifyTime" jdbcType="TIMESTAMP" />
+    <result column="PAY_END_TIME" property="payEndTime" jdbcType="TIMESTAMP" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="TOTAL_FEE" property="totalFee" jdbcType="DECIMAL" />
+    <result column="PICKUP_CODE" property="pickupCode" jdbcType="VARCHAR" />
+    <result column="WECHAT_ACCOUNT" property="wechatAccount" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ORDER_ID, COMPANY_ID, PREPAY_END_TIME, PAY_NOTIFY_TIME, PAY_END_TIME, STATUS, TOTAL_FEE, 
+    PICKUP_CODE, WECHAT_ACCOUNT, CREATE_DATE, UPDATE_DATE
+  </sql>
+  <select id="selectByCriteria" resultMap="BaseResultMap" parameterType="com.hpe.ddc.framework.model.TOrderCriteria" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_order
+    where ORDER_ID = #{orderId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_order
+    where ORDER_ID = #{orderId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByCriteria" parameterType="com.hpe.ddc.framework.model.TOrderCriteria" >
+    delete from t_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hpe.ddc.framework.model.TOrder" >
+    <selectKey resultType="java.lang.Long" keyProperty="orderId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_order (COMPANY_ID, PREPAY_END_TIME, PAY_NOTIFY_TIME, 
+      PAY_END_TIME, STATUS, TOTAL_FEE, 
+      PICKUP_CODE, WECHAT_ACCOUNT, CREATE_DATE, 
+      UPDATE_DATE)
+    values (#{companyId,jdbcType=BIGINT}, #{prepayEndTime,jdbcType=TIMESTAMP}, #{payNotifyTime,jdbcType=TIMESTAMP}, 
+      #{payEndTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}, #{totalFee,jdbcType=DECIMAL}, 
+      #{pickupCode,jdbcType=VARCHAR}, #{wechatAccount,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{updateDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hpe.ddc.framework.model.TOrder" >
+    <selectKey resultType="java.lang.Long" keyProperty="orderId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="companyId != null" >
+        COMPANY_ID,
+      </if>
+      <if test="prepayEndTime != null" >
+        PREPAY_END_TIME,
+      </if>
+      <if test="payNotifyTime != null" >
+        PAY_NOTIFY_TIME,
+      </if>
+      <if test="payEndTime != null" >
+        PAY_END_TIME,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="totalFee != null" >
+        TOTAL_FEE,
+      </if>
+      <if test="pickupCode != null" >
+        PICKUP_CODE,
+      </if>
+      <if test="wechatAccount != null" >
+        WECHAT_ACCOUNT,
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE,
+      </if>
+      <if test="updateDate != null" >
+        UPDATE_DATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="companyId != null" >
+        #{companyId,jdbcType=BIGINT},
+      </if>
+      <if test="prepayEndTime != null" >
+        #{prepayEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payNotifyTime != null" >
+        #{payNotifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payEndTime != null" >
+        #{payEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="totalFee != null" >
+        #{totalFee,jdbcType=DECIMAL},
+      </if>
+      <if test="pickupCode != null" >
+        #{pickupCode,jdbcType=VARCHAR},
+      </if>
+      <if test="wechatAccount != null" >
+        #{wechatAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByCriteria" parameterType="com.hpe.ddc.framework.model.TOrderCriteria" resultType="java.lang.Integer" >
+    select count(*) from t_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByCriteriaSelective" parameterType="map" >
+    update t_order
+    <set >
+      <if test="record.orderId != null" >
+        ORDER_ID = #{record.orderId,jdbcType=BIGINT},
+      </if>
+      <if test="record.companyId != null" >
+        COMPANY_ID = #{record.companyId,jdbcType=BIGINT},
+      </if>
+      <if test="record.prepayEndTime != null" >
+        PREPAY_END_TIME = #{record.prepayEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.payNotifyTime != null" >
+        PAY_NOTIFY_TIME = #{record.payNotifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.payEndTime != null" >
+        PAY_END_TIME = #{record.payEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.status != null" >
+        STATUS = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.totalFee != null" >
+        TOTAL_FEE = #{record.totalFee,jdbcType=DECIMAL},
+      </if>
+      <if test="record.pickupCode != null" >
+        PICKUP_CODE = #{record.pickupCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.wechatAccount != null" >
+        WECHAT_ACCOUNT = #{record.wechatAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null" >
+        CREATE_DATE = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateDate != null" >
+        UPDATE_DATE = #{record.updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByCriteria" parameterType="map" >
+    update t_order
+    set ORDER_ID = #{record.orderId,jdbcType=BIGINT},
+      COMPANY_ID = #{record.companyId,jdbcType=BIGINT},
+      PREPAY_END_TIME = #{record.prepayEndTime,jdbcType=TIMESTAMP},
+      PAY_NOTIFY_TIME = #{record.payNotifyTime,jdbcType=TIMESTAMP},
+      PAY_END_TIME = #{record.payEndTime,jdbcType=TIMESTAMP},
+      STATUS = #{record.status,jdbcType=VARCHAR},
+      TOTAL_FEE = #{record.totalFee,jdbcType=DECIMAL},
+      PICKUP_CODE = #{record.pickupCode,jdbcType=VARCHAR},
+      WECHAT_ACCOUNT = #{record.wechatAccount,jdbcType=VARCHAR},
+      CREATE_DATE = #{record.createDate,jdbcType=TIMESTAMP},
+      UPDATE_DATE = #{record.updateDate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hpe.ddc.framework.model.TOrder" >
+    update t_order
+    <set >
+      <if test="companyId != null" >
+        COMPANY_ID = #{companyId,jdbcType=BIGINT},
+      </if>
+      <if test="prepayEndTime != null" >
+        PREPAY_END_TIME = #{prepayEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payNotifyTime != null" >
+        PAY_NOTIFY_TIME = #{payNotifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payEndTime != null" >
+        PAY_END_TIME = #{payEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="totalFee != null" >
+        TOTAL_FEE = #{totalFee,jdbcType=DECIMAL},
+      </if>
+      <if test="pickupCode != null" >
+        PICKUP_CODE = #{pickupCode,jdbcType=VARCHAR},
+      </if>
+      <if test="wechatAccount != null" >
+        WECHAT_ACCOUNT = #{wechatAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ORDER_ID = #{orderId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hpe.ddc.framework.model.TOrder" >
+    update t_order
+    set COMPANY_ID = #{companyId,jdbcType=BIGINT},
+      PREPAY_END_TIME = #{prepayEndTime,jdbcType=TIMESTAMP},
+      PAY_NOTIFY_TIME = #{payNotifyTime,jdbcType=TIMESTAMP},
+      PAY_END_TIME = #{payEndTime,jdbcType=TIMESTAMP},
+      STATUS = #{status,jdbcType=VARCHAR},
+      TOTAL_FEE = #{totalFee,jdbcType=DECIMAL},
+      PICKUP_CODE = #{pickupCode,jdbcType=VARCHAR},
+      WECHAT_ACCOUNT = #{wechatAccount,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}
+    where ORDER_ID = #{orderId,jdbcType=BIGINT}
+  </update>
+</mapper>
