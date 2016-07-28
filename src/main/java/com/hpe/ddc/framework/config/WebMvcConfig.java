@@ -2,6 +2,7 @@ package com.hpe.ddc.framework.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
@@ -20,24 +21,46 @@ import java.util.List;
 @Configuration
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
     /**
-     * 重载会覆盖掉spring mvc默认注册的多个HttpMessageConverter
-     * TODO 因为会覆盖，所以还是需要测试一下。
-     * @param converters
+     * 通过@Bean定义HttpMessageConverter是向项目中添加消息转换器最简便的办法，这类似于之前提到的添加Servlet Filters。
+     * 如果Spring扫描到HttpMessageConverter类型的bean，就会将它自动添加到调用链中。<br/>
+     * 因为configureMessageConverters方法会覆盖掉spring mvc默认注册的多个HttpMessageConverter，
+     * 并且不能确保重写后的configureMessageConverters方法按照固定顺序执行。所以使用了下面的方法
+     * @return
      */
-    @Override
-    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-        //让输出的JSON带有缩进功能，这样更好确认
+    @Bean
+    public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter() {
         final ObjectMapper objectMapper = new ObjectMapper()
                 .enable(SerializationFeature.INDENT_OUTPUT);
-        converters.add(new MappingJackson2HttpMessageConverter(objectMapper));
-        //让输出的结果的字符集为UTF-8
-        //Add a converter for the String sent via HTTP
-        StringHttpMessageConverter stringConverter = new StringHttpMessageConverter(StandardCharsets.UTF_8);
-        //See SPR-7316
-        //SPR-7316: to avoid Accept-Charset header overhead
-        stringConverter.setWriteAcceptCharset(false);
-        converters.add(new StringHttpMessageConverter(StandardCharsets.UTF_8));
+        return new MappingJackson2HttpMessageConverter(objectMapper);
     }
+
+    /**
+     * 通过@Bean定义HttpMessageConverter是向项目中添加消息转换器最简便的办法，这类似于之前提到的添加Servlet Filters。
+     * 如果Spring扫描到HttpMessageConverter类型的bean，就会将它自动添加到调用链中。<br/>
+     * @return
+     */
+    @Bean
+    public StringHttpMessageConverter stringHttpMessageConverter() {
+        return new StringHttpMessageConverter(StandardCharsets.UTF_8);
+    }
+//    /**
+//     * 重载会覆盖掉spring mvc默认注册的多个HttpMessageConverter
+//     * @param converters
+//     */
+//    @Override
+//    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+//        //让输出的JSON带有缩进功能，这样更好确认
+//        final ObjectMapper objectMapper = new ObjectMapper()
+//                .enable(SerializationFeature.INDENT_OUTPUT);
+//        converters.add(new MappingJackson2HttpMessageConverter(objectMapper));
+//        //让输出的结果的字符集为UTF-8
+//        //Add a converter for the String sent via HTTP
+//        StringHttpMessageConverter stringConverter = new StringHttpMessageConverter(StandardCharsets.UTF_8);
+//        //See SPR-7316
+//        //SPR-7316: to avoid Accept-Charset header overhead
+//        stringConverter.setWriteAcceptCharset(false);
+//        converters.add(new StringHttpMessageConverter(StandardCharsets.UTF_8));
+//    }
 
     /**
      * 为了让静态资源能有正确的Header
