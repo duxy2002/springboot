@@ -51,7 +51,46 @@
     <prudent>false</prudent>
   </appender>
   <!--logger还可以指定additivity=“true” or "false"。当为true时，可以断开logger的继承关系。-->
-  <logger name="com.hpe.ddc" level="DEBUG" />
+  <logger name="com.hpe.ddc" level="INFO" />
+
+  <!-- log4jdbc-log4j2 定义开始-->
+  <!--输出设定完Bind变量值的SQL文。和jdbc.sqltiming的区别在于这个不输出sql文的执行时间。-->
+  <!--不需要的情况下把Level设置为OFF-->
+  <logger name="jdbc.sqlonly" level="OFF" additivity="false">
+    <appender-ref ref="STDOUT"/>
+    <appender-ref ref="FILE" />
+  </logger>
+  <!--输出设定完Bind变量值的SQL文和SQL执行时间。因为Bind变量值已经被设定，所以直接拷贝出来就可以执行。-->
+  <!--不需要的情况下把Level设置为OFF-->
+  <logger name="jdbc.sqltiming"      level="INFO" additivity="false">
+    <appender-ref ref="STDOUT"/>
+    <appender-ref ref="FILE" />
+  </logger>
+  <!--输出除了ResultSet接口以外的JDBC接口的所有参数以及返回值。JDBC相关部分发生错误的时候，解析可以用上。但是缺点是log的量很大-->
+  <!--不需要的情况下把Level设置为OFF-->
+  <logger name="jdbc.audit"          level="OFF" additivity="false">
+    <appender-ref ref="STDOUT"/>
+    <appender-ref ref="FILE" />
+  </logger>
+  <!--输出Connection接续/切断事件以及使用中的Connection。发生接续Leak的时候，这些Log可以用上。但是没有接续Leak的问题，那么就没有必要输出-->
+  <!--不需要的情况下把Level设置为OFF-->
+  <logger name="jdbc.connection"     level="OFF" additivity="false">
+    <appender-ref ref="STDOUT"/>
+    <appender-ref ref="FILE" />
+  </logger>
+  <!--输出对于ResultSet接口的所有参数以及返回值。取得结果和想象的不一样的时候，解析可以用上。但是缺点是log的量很大-->
+  <!--不需要的情况下把Level设置为OFF-->
+  <logger name="jdbc.resultset"      level="OFF" additivity="false">
+    <appender-ref ref="STDOUT"/>
+    <appender-ref ref="FILE" />
+  </logger>
+  <!--为了更好地理解ResultSet的内容，对它进行了整形-->
+  <!--不需要的情况下把Level设置为OFF-->
+  <logger name="jdbc.resultsettable" level="INFO" additivity="false">
+    <appender-ref ref="STDOUT"/>
+    <appender-ref ref="FILE" />
+  </logger>
+  <!-- log4jdbc-log4j2 定义结束-->
 
   <!--root要素只能指定level属性。-->
   <root level="INFO">

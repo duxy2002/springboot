@@ -1,6 +1,8 @@
 package com.hpe.ddc.framework.filter;
 
 
+import lombok.extern.slf4j.Slf4j;
+
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import java.io.IOException;
@@ -14,23 +16,24 @@ import java.io.IOException;
  * Created by duxi on 2016/7/27.
  */
 @WebFilter(filterName="sampleFilter",urlPatterns="/*")
+@Slf4j
 public class SampleFilter implements Filter {
 
     @Override
     public void destroy() {
-        System.out.println("过滤器销毁");
+        log.info("过滤器销毁");
     }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response,
                          FilterChain chain) throws IOException, ServletException {
-        System.out.println("执行过滤操作");
+        log.info("执行过滤操作");
         chain.doFilter(request, response);
     }
 
     @Override
     public void init(FilterConfig config) throws ServletException {
-        System.out.println("过滤器初始化");
+        log.info("过滤器初始化");
     }
 
 }
