@@ -178,6 +178,13 @@
 			<version>1.16</version>
 		</dependency>
 		<!-- 输出SQL文 结束-->
+
+		<!--Database Migration Tool。这儿主要用来SpringBoot启动的时候，自动生成数据库的表以及插入数据 开始-->
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-core</artifactId>
+		</dependency>
+		<!--Database Migration Tool。结束-->
 		<!-- mybatis 结束-->
 
 		<!--
@@ -238,6 +245,9 @@
 					<!--executable为false的时候，生成Executable Jar,为true的时候，生成Fully Executable Jar-->
 					<!--Executable War的时候，假如不利用systemd，那么就要写启动脚本。而Fully Executable Jar会自动生成启动脚本-->
 					<executable>true</executable>
+					<!-- 假如在工程中有多个main类，那么mvn spring-boot:run的时候，会出现Unable to find a single main class的错误，通过下面的方式指定相对应的main类-->
+					<mainClass>com.hpe.ddc.SpringbootApplication</mainClass>
+					<jvmArguments>-Dfile.encoding=UTF-8</jvmArguments>
 				</configuration>
 			</plugin>
 			<plugin>

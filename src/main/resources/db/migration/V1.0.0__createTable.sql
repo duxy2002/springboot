@@ -8,15 +8,15 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 -- Schema cloud_wechat_print
 -- -----------------------------------------------------
 -- the database of WeChat Public Printing
-DROP SCHEMA IF EXISTS `cloud_wechat_print` ;
+-- DROP SCHEMA IF EXISTS `cloud_wechat_print` ;
 
 -- -----------------------------------------------------
 -- Schema cloud_wechat_print
 --
 -- the database of WeChat Public Printing
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `cloud_wechat_print` DEFAULT CHARACTER SET utf8 ;
-USE `cloud_wechat_print` ;
+-- CREATE SCHEMA IF NOT EXISTS `cloud_wechat_print` DEFAULT CHARACTER SET utf8 ;
+-- USE `cloud_wechat_print` ;
 
 -- -----------------------------------------------------
 -- Table `cloud_wechat_print`.`t_print_error`
